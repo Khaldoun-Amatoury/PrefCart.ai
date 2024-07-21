@@ -20,5 +20,4 @@ export interface RecommendationProduct {
   Image_Url: string;
   Category: string;
   SubCategory: string;
-  // Add any other fields that your recommendation engine expects
 }
