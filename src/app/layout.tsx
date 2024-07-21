@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     {
       rel: "icon",
       type: "image/x-icon",
-      url: "/PrefCartRedLogo.png",
+      url: "/PrefCartRedLogon.png",
     },
   ],
 };

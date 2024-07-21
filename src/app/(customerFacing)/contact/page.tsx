@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormState, useFormStatus } from "react-dom";
-import { addContact } from "../_actions/contact";
 import { Contact } from "@prisma/client";
 
 export default function ContactComponent({
@@ -13,8 +12,6 @@ export default function ContactComponent({
 }: {
   contact?: Contact | null;
 }) {
-  const [error, action] = useFormState(addContact, {});
-
   const [name, setName] = useState<string | undefined>(contact?.fullName);
   const [email, setEmail] = useState<string | undefined>(contact?.email);
   const [message, setMessage] = useState<string | undefined>(contact?.message);
@@ -35,10 +32,7 @@ export default function ContactComponent({
           background-color: #10b981;
         }
       `}</style>
-      <form
-        className="bg-white p-10 rounded-xl shadow-2xl transform transition-all duration-500 hover:scale-105 w-full max-w-2xl"
-        action={action}
-      >
+      <form className="bg-white p-10 rounded-xl shadow-2xl transform transition-all duration-500 hover:scale-105 w-full max-w-2xl">
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
           Contact Us
         </h2>
