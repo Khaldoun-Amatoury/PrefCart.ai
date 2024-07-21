@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { RecommendationProduct } from "../../../lib/types";
 import { ProductCard } from "@/components/ProductCard";
+import Image from "next/image";
 
 interface ProductListProps {
   intolerance: string;
@@ -63,60 +64,66 @@ const ProductList: React.FC<ProductListProps> = ({ intolerance }) => {
     productType: "safe" | "unsafe"
   ) => (
     <div className="mt-8">
-    <h2 className="text-2xl font-bold mb-4">{title}</h2>
-    {products.length > 0 ? (
-      <>
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {productType === "safe" 
-            ? products.map((product) => (
-                <ProductCard
-                  key={product.ProductName}
-                  id={product.id} // Assuming ProductName is unique, otherwise use a proper id
-                  name={product.ProductName}
-                  priceInCents={product.Price * 100} // Assuming Price is in dollars, convert to cents
-                  Brand={product.Brand}
-                  imagePath={product.Image_Url}
-                />
-              ))
-            : products.map((product) => (
-                <li key={product.ProductName} className="border rounded p-4">
-                  <img
-                    src={product.Image_Url}
-                    alt={product.ProductName}
-                    className="w-full h-48 object-cover mb-2"
+      <h2 className="text-2xl font-bold mb-4">{title}</h2>
+      {products.length > 0 ? (
+        <>
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {productType === "safe"
+              ? products.map((product) => (
+                  <ProductCard
+                    key={product.ProductName}
+                    id={product.id}
+                    name={product.ProductName}
+                    priceInCents={product.Price * 100}
+                    Brand={product.Brand}
+                    imagePath={product.Image_Url}
                   />
-                  <h3 className="font-bold">{product.ProductName}</h3>
-                  <p>Brand: {product.Brand}</p>
-                  <p>Price: ${product.Price}</p>
-                  <p>Category: {product.Category}</p>
-                </li>
-              ))
-          }
-        </ul>
-        <div className="mt-4 flex justify-between">
-          <button
-            onClick={() => handlePageChange(productType, page - 1)}
-            disabled={page === 1}
-            className="bg-red-500 text-white px-4 py-2 rounded"
-          >
-            Previous
-          </button>
-          <span>
-            Page {page} of {totalPages}
-          </span>
-          <button
-            onClick={() => handlePageChange(productType, page + 1)}
-            disabled={page === totalPages}
-            className="bg-red-500 text-white px-4 py-2 rounded"
-          >
-            Next
-          </button>
-        </div>
-      </>
-    ) : (
-      <p>No {productType} products found.</p>
-    )}
-  </div>
+                ))
+              : products.map((product) => (
+                  <li key={product.ProductName} className="border rounded p-4">
+                    <div className="relative w-full h-72 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+                    <Image
+                      src={product.Image_Url}
+                      alt={product.ProductName}
+                      layout="fill"
+                      objectFit="contain"
+                      quality={100}
+                      className="transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:rotate-1"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
+                  </div>
+                  <div className="flex-grow">
+                  <h3 className="font-bold text-lg mb-2">{product.ProductName}</h3>
+                  <p className="text-sm mb-1">Brand: {product.Brand}</p>
+                  <p className="text-sm mb-1">Price: ${product.Price}</p>
+                </div>
+                  </li>
+                ))}
+          </ul>
+          <div className="mt-4 flex justify-between">
+            <button
+              onClick={() => handlePageChange(productType, page - 1)}
+              disabled={page === 1}
+              className="bg-red-500 text-white px-4 py-2 rounded"
+            >
+              Previous
+            </button>
+            <span>
+              Page {page} of {totalPages}
+            </span>
+            <button
+              onClick={() => handlePageChange(productType, page + 1)}
+              disabled={page === totalPages}
+              className="bg-red-500 text-white px-4 py-2 rounded"
+            >
+              Next
+            </button>
+          </div>
+        </>
+      ) : (
+        <p>No {productType} products found.</p>
+      )}
+    </div>
   );
 
   if (loading) {

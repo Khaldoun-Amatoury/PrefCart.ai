@@ -9,7 +9,7 @@ export function NavbarCartButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="relative text-white hover:text-black"
+      className="relative text-black hover:text-gray-600"
     >
       <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
       {itemCount > 0 && (

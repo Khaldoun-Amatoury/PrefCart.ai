@@ -1,22 +1,36 @@
 "use client";
 import { useState } from "react";
+import { usePathname } from 'next/navigation';
 import { Dialog, Popover } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavbarCartButton } from "@/components/NavbarCartButton";
 import { CartModal } from "@/components/CartModal";
+import Link from 'next/link';
 
-function classNames(...classes: string[]) {
+function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Header() {
+export default function Header(): JSX.Element {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+  const pathname = usePathname();
 
-  const handleCartClick = () => {
+  const handleCartClick = (): void => {
     setIsCartOpen(true);
-    console.log("Cart opened"); 
+    console.log("Cart opened");
   };
+
+  const isActive = (path: string): boolean => pathname === path;
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About us" },
+    { href: "/products", label: "Products" },
+    { href: "/recommendations", label: "Recommendations" },
+    { href: "/feedback", label: "Feedback" },
+    { href: "/contact", label: "Contact Us" },
+  ];
 
   return (
     <header className="bg-customRed h-14">
@@ -25,14 +39,14 @@ export default function Header() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="/" className="-m-6 ml-1.5">
+          <Link href="/" className="-m-6 ml-1.5">
             <span className="sr-only">PrefCart</span>
             <img
               className="h-8 w-auto mt-1"
               src="/PrefCartLogoWhite.png"
               alt="PrefCart Logo"
             />
-          </a>
+          </Link>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -45,45 +59,19 @@ export default function Header() {
           </button>
         </div>
         <Popover.Group className="hidden -mt-1 lg:flex lg:gap-x-12">
-          <a
-            href="/"
-            className="text-base font-semibold leading-6 text-white hover:text-black"
-          >
-            Home
-          </a>
-          <a
-            href="/about"
-            className="text-base font-semibold leading-6 text-white hover:text-black"
-          >
-            About us
-          </a>
-          <a
-            href="/products"
-            className="text-base font-semibold leading-6 text-white hover:text-black"
-          >
-            Products
-          </a>
-          <a
-            href="/recommendations"
-            className="text-base font-semibold leading-6 text-white hover:text-black"
-          >
-            Recommendations
-          </a>
-
-          <a
-            href="/feedback"
-            className="text-base font-semibold leading-6 text-white hover:text-black"
-          >
-            Feedback
-          </a>
-          <a
-            href="/contact"
-            className="text-base font-semibold leading-6 text-white hover:text-black justify-end"
-          >
-            Contact Us
-          </a>
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`text-base font-semibold leading-6 ${
+                isActive(link.href) ? 'text-black' : 'text-white hover:text-black'
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
           <div className="-mx-3 px-3">
-          <NavbarCartButton onClick={handleCartClick} />
+            <NavbarCartButton onClick={handleCartClick} />
           </div>
         </Popover.Group>
       </nav>
@@ -91,14 +79,14 @@ export default function Header() {
         as="div"
         className="lg:hidden"
         open={mobileMenuOpen}
-        onClose={setMobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
       >
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="/" className="-m-1.5 p-1.5">
+            <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">PrefCart</span>
-            </a>
+            </Link>
             <button
               type="button"
               className="-m-2.5 rounded-md p-2.5 text-black"
@@ -111,44 +99,17 @@ export default function Header() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
-                <a
-                  href="/"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-gray-50 hover:text-customRed"
-                >
-                  Home
-                </a>
-                <a
-                  href="/about"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-gray-50 hover:text-customRed"
-                >
-                  About us
-                </a>
-                <a
-                  href="/products"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-gray-50 hover:text-customRed"
-                >
-                  Products
-                </a>
-                <a
-                  href="/recommendations"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-gray-50 hover:text-customRed"
-                >
-                  Recommendations
-                </a>
-
-                <a
-                  href="/feedback"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-gray-50 hover:text-customRed"
-                >
-                  Feedback
-                </a>
-
-                <a
-                  href="/contact"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-gray-50 hover:text-customRed"
-                >
-                  Contact Us
-                </a>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 ${
+                      isActive(link.href) ? 'text-black bg-gray-50' : 'text-black hover:bg-gray-50 hover:text-customRed'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
                 <div className="-mx-3 px-3 py-2">
                   <NavbarCartButton onClick={() => setIsCartOpen(true)} />
                 </div>
@@ -161,7 +122,7 @@ export default function Header() {
         isOpen={isCartOpen} 
         onClose={() => {
           setIsCartOpen(false);
-          console.log("Cart closed"); // Add this line for debugging
+          console.log("Cart closed");
         }} 
       />
     </header>
