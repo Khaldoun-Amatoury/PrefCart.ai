@@ -6,10 +6,10 @@ const TfIdf = natural.TfIdf;
 function getKeywordsForIntolerance(intolerance: string): string[] {
   if (intolerance === "gluten") {
     return [
-      "wheat", "barley", "rye", "oats", "gluten", "bread", "pasta", "cereal", "noodles",
+      "wheat", "barley", "rye", "oats", "gluten","patisserie" ,"bread", "pasta", "cereal", "noodles",
     ];
   } else if (intolerance === "lactose") {
-    return ["milk", "dairy", "cheese", "yogurt", "cream", "butter", "lactose"];
+    return ["milk", "chocolate","patisserie", "dairy", "cheese", "yogurt", "cream", "butter", "lactose"];
   }
   return [];
 }
