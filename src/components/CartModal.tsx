@@ -7,6 +7,7 @@ import { formatCurrency } from "@/lib/formatters";
 import { useFormState } from "react-dom";
 import { addOrder } from "@/app/(customerFacing)/_actions/purchase";
 
+
 type CartModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -27,10 +28,60 @@ export function CartModal({ isOpen, onClose }: CartModalProps) {
 
   const [error, action] = useFormState(addOrder.bind(null), {});
 
-  const handleSubmit = () => {
-    setShowForm(false);
-    clearCart();
-    onClose();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setShowForm(false); // Attempt to hide the form
+  
+    const products = cart.map(item => ({
+      name: item.name,
+      quantity: item.quantity,
+      priceInCents: item.priceInCents,
+    }));
+  
+    console.log('Submitting data:', {
+      name,
+      email,
+      products,
+      pricePaid: getTotalPrice() / 100,
+    });
+  
+    try {
+      const response = await fetch('/api/sendEmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          products,
+          pricePaid: getTotalPrice() / 100,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to process order');
+      }
+  
+      // Debugging state change
+      console.log('Setting showForm to false');
+      setShowForm(false);
+  
+      // Debugging cart clearing
+      console.log('Clearing cart');
+      clearCart();
+  
+      // Debugging modal close
+      console.log('Closing modal');
+      onClose();
+  
+      // Alert message
+      alert("Thank you for your order. Please check your email to check the receipt.");
+  
+    } catch (error) {
+      console.error('Error processing order:', error);
+    }
   };
 
   if (!isOpen) return null;
