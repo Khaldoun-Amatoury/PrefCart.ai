@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
           </tr>
         </tfoot>
       </table>
-      <p>Best regards,<br>Your Company</p>
+      <p>Best regards,<br>PrefCart</p>
     `;
 
     await transporter.sendMail({
