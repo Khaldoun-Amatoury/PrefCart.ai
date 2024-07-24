@@ -1,10 +1,8 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useFormState, useFormStatus } from "react-dom";
 import { Contact } from "@prisma/client";
 
 export default function ContactComponent({
@@ -32,7 +30,11 @@ export default function ContactComponent({
           background-color: #10b981;
         }
       `}</style>
-      <form className="bg-white p-10 rounded-xl shadow-2xl transform transition-all duration-500 hover:scale-105 w-full max-w-2xl">
+      <form
+        action="https://formspree.io/f/mzzpdkjp"
+        method="POST"
+        className="bg-white p-10 rounded-xl shadow-2xl transform transition-all duration-500 hover:scale-105 w-full max-w-2xl"
+      >
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
           Contact Us
         </h2>
@@ -90,7 +92,7 @@ export default function ContactComponent({
 }
 
 function SubmitButton() {
-  const { pending } = useFormStatus();
+  const [pending, setPending] = useState(false);
 
   return (
     <Button

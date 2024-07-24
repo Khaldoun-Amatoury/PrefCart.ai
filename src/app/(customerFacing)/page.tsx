@@ -18,7 +18,7 @@ import FeedbackList from "./_components/FeedbackList";
 const getNewestProducts = cache(() => {
   return db.product.findMany({
     where: { isAvailableForPurchase: true },
-    orderBy: { createdAt: "asc" },
+    orderBy: { createdAt: "desc" },
     take: 6,
   });
 }, ["/", "getNewestProducts"]);

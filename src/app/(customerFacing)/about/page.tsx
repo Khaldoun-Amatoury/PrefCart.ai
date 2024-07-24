@@ -209,7 +209,7 @@ export default function About() {
           transition={{ duration: 1, delay: 1.1 }}
         >
           <a
-            href="http://localhost:3000/"
+            href="http://localhost:3000/contact"
             className="inline-block px-8 py-3 bg-customRed text-white font-semibold rounded-full hover:bg-red-700 transition duration-300 transform hover:scale-105"
           >
             Join the Revolution
